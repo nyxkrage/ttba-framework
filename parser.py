@@ -57,11 +57,12 @@ def main():
 		cmd = input('\u001b[33mWhat would you like to do? \u001b[0m').lower()
 		print('\u001b[32m', end='')
 
-		# TODO: change this to allow multiple keywords for chagne location/room
+# TODO: change this to allow multiple keywords for chagne location/room
 		# If the command contains the word enter for now, get which exit the 
 		# player is referring to in the command and load it into the location 
 		# variable and print the corresponding text
 		if 'enter' in cmd:
+# TODO: Add conditions to useing exits so that you can block areas off
 			loc = get_exit_from_input(cmd)
 			if loc is not None:
 				location = parse_location(loc)
