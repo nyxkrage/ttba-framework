@@ -1,4 +1,4 @@
-from os import replace
+from os import replace, system
 import yaml
 import textwrap
 
@@ -24,6 +24,11 @@ def main():
 	global location
 	global triggers
 
+	# Start a new command prompt proccess which enables VT1000 mode and by 
+	# extenstion ANSI escape sequences, the fact that VT1000 mode is enabled 
+	# after the proccess ends is a bug and shouldn't be relied on, but this is 
+	# the easiest way.
+	system('')
 	game = load('test.yml')
 	location = parse_location(game['start'])
 
