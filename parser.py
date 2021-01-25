@@ -41,7 +41,7 @@ def main():
 	system('')
 	# Load the game into the global game variable and parse the starting 
 	# location
-	game = load('test.yml')
+	game = load('games/ddu.yml')
 	location = parse_location(game['start'])
 
 	# Print the title of the game and the text of the starting location
@@ -57,18 +57,40 @@ def main():
 		cmd = input('\u001b[33mWhat would you like to do? \u001b[0m').lower()
 		print('\u001b[32m', end='')
 
-# TODO: change this to allow multiple keywords for chagne location/room
-		# If the command contains the word enter for now, get which exit the 
-		# player is referring to in the command and load it into the location 
-		# variable and print the corresponding text
-		if 'enter' in cmd:
-# TODO: Add conditions to useing exits so that you can block areas off
-			loc = get_exit_from_input(cmd)
-			if loc is not None:
+		loc = get_exit_from_input(cmd)
+		if loc is not None:
+			if isinstance(loc, str):
 				location = parse_location(loc)
 				print(textwrap.fill(location['message']))
+				if loc == game['end']:
+					return
 			else:
-				print('\u001b[31mI dont know what you are referring to')
+				if 'if' in loc:
+					printed = False
+					for i in loc['if']:
+						if i in triggers:
+							if triggers[i] == True:
+								if '/' in loc['if'][i]:
+									location = parse_location(loc['if'][i])
+									print(textwrap.fill(location['message']))
+									if loc == game['end']:
+										return
+									printed = True
+									break;
+								else:
+									print(textwrap.fill(loc['if'][i]))
+									printed = True
+									break;
+					if printed == False:
+						if '/' in loc['else']:
+							location = parse_location(loc['else'])
+							print(textwrap.fill(location['message']))
+							if loc == game['end']:
+										return
+						else:
+							print(textwrap.fill(loc['else']))
+				else:
+					print("ERR: Please format correctly")
 		else:
 			object = get_object_from_input(cmd)
 			if object is not None:
@@ -78,6 +100,8 @@ def main():
 					if isinstance(val, str):
 						print(textwrap.fill(val))
 					else:
+						if 'trigger' in val:
+							set_triggers(val['trigger'])
 						if 'message' in val:
 							print(textwrap.fill(val['message']))
 							# This is a huge mess but im not sure how to better do it
@@ -103,7 +127,11 @@ def main():
 											else:
 												triggered = True
 									if triggered == False:
-										print(textwrap.fill(val['if'][condition]))
+										if isinstance(val['if'][condition], str):
+											print(textwrap.fill(val['if'][condition]))
+										else:
+											set_triggers(val['if'][condition]['trigger'])
+											print(textwrap.fill(val['if'][condition]['message']))
 										printed = True
 										break
 								if typ == "||":
@@ -111,33 +139,52 @@ def main():
 										if cond[0] == '!':
 											if cond[1:] in triggers:
 												if triggers[cond[1:]] == True:
-													print(textwrap.fill(val['if'][condition]))
+													if isinstance(val['if'][condition], str):
+														print(textwrap.fill(val['if'][condition]))
+													else:
+														set_triggers(val['if'][condition]['trigger'])
+														print(textwrap.fill(val['if'][condition]['message']))
 													printed = True
 													break
 										else:
 											if cond in triggers:
 												if triggers[cond] == True:
-													print(textwrap.fill(val['if'][condition]))
+													if isinstance(val['else'], str):
+														print(textwrap.fill(val['else']))
+													else:
+														set_triggers(val['else']['trigger'])
+														print(textwrap.fill(val['else']['message']))
 													printed = True
 													break
 								if printed:
 									break
 							if not printed:
-								print(textwrap.fill(val['else']))
+								if isinstance(val['else'], str):
+									print(textwrap.fill(val['else']))
+								else:
+									set_triggers(val['else']['trigger'])
+									print(textwrap.fill(val['else']['message']))
 						else:
 							print('ERROR WRONGLY FORMATTED GAME FILE')
 							return
-
-						if 'trigger' in val:
-							if isinstance(val['trigger'], str):
-								triggers[val['trigger']] = True
-							else:
-								for trigger in val['trigger']:
-									triggers[trigger] = True
 				else:
 					print('\u001b[31mSorry you cant do that')
 			else:
 				print('\u001b[31mI dont know what you are referring to')
+
+
+def set_triggers(values):
+	if isinstance(values, str):
+		if values[0] == '!':
+			triggers[values] = False
+		else:
+			triggers[values] = True
+	else:
+		for trigger in values:
+			if trigger[0] == '!':
+				triggers[trigger[1:]] = False
+			else:
+				triggers[trigger] = True
 
 # Parse condition from string to multiple triggers
 # typ is either or or and, and denotes whether the triggers need to all be fufilled or just one
@@ -170,9 +217,7 @@ def get_exit_from_input(cmd):
 		names = get_name_and_alias(location['exits'][i], i)
 		for name in names:
 			if name in cmd:
-				if isinstance(location['exits'][i.replace(' ', '_')], str):
-					return location['exits'][i.replace(' ', '_')]
-				return location['exits'][i.replace(' ', '_')]['exit']
+				return location['exits'][i.replace(' ', '_')]
 	
 # This gets the name and aliases of the object as a list of strings
 def get_name_and_alias(obj, name):

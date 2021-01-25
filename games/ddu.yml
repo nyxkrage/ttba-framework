@@ -1,5 +1,6 @@
 name: "DDU Spil"
 start: texas/saloon
+end: canada/victory
 locations:
   texas:
     rooms:
@@ -21,7 +22,7 @@ locations:
               go_to:
                 alias: 
                   - talk_to
-                  - walk_tok
+                  - walk_to
                   - walk_over_to
                 else: 
                   message: "You walk over to the bartender"
@@ -30,11 +31,15 @@ locations:
                   bartender_talk_1:
                     message: >
                       Well hello there traveller. Fancy seeing you here around these parts. (It looks like the bartender has more to say)
-                    trigger: bartender_talk_2
+                    trigger: 
+                      - "!bartender_talk_1"
+                      - bartender_talk_2
                   bartender_talk_2:
                     message: >
                       You here to stay in town or are you looking to hit the road? (It looks like the bartender has more to say)
-                    trigger: bartender_talk_3
+                    trigger: 
+                      - "!bartender_talk_2"
+                      - bartender_talk_3
                   bartender_talk_3:
                     message: >
                       If you want to hit the ground running, you are free to borrow my horse for a little while
@@ -92,13 +97,14 @@ locations:
                 else: >
                   You should probably not just take the horse, another person might need it. 
                   Maybe you can find the owner, and borrow the horse.
-        extis:
+        exits:
           saloon: texas/saloon
           highway:
             alias: 
               - freeway
             if: 
               horse: alabama/gun_store
+              stolen_horse: alabama/gun_store
             else: >
               You cant just walk to Alabama, you should probably get some form of transportation, 
               like a horse
@@ -144,7 +150,7 @@ locations:
                 message: >
                   The bathroom reeks, and the walls looks to be splattered with shit. Going in is probably gonna make you puke, and you
                   would like to avoid that.
-        extis:
+        exits:
           door: washington/white_house
   washington:
     rooms:
@@ -171,7 +177,7 @@ locations:
                     trigger: car_key
                     message: In the drawer there is a car key, specifically for a Ford, however it doesn't say which model.
                   mop:
-                    trigger: !mop
+                    trigger: "!mop"
                     message: You try putting the handle of the mop in between the handle and the desk to use it as a lever, unfortunately it isnt sturdy enough and snaps in two.
                 else: Even trying to pull as hard as possible, the drawer doesn't seem to budge, even a smidge.
           desk:
@@ -213,7 +219,7 @@ locations:
                   white house for 6 years now, trying to uncover some of the many mysteries 
                   surrounding the presidency. However it seems that the entire covid-19 pandemic was a 
                   made up thing by Donald Trump to win followers for the election. To be published..."
-        extis:
+        exits:
           avenue: washington/lincoln_memorial
       lincoln_memorial:
         message: >
@@ -277,7 +283,7 @@ locations:
                       You approach the Biden supporters to ask about what is going on. Sadly they don't seem 
                       to be of any help, as they just start spewing random anti-trump propaganda.
                     trigger: end
-        extis:
+        exits:
           avenue: washington/white_house
           border:
             alias: 
