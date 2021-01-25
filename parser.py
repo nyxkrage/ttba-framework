@@ -6,6 +6,8 @@ import yaml
 # This makes sure that the text that gets output is automatically wrapped to 
 # to multiple lines if the string is too long
 import textwrap
+# This allows us to use arguments specified when laucnhing the script to load the game
+from sys import argv
 
 # Some general global variables for storing game data
 game = {}
@@ -41,7 +43,7 @@ def main():
 	system('')
 	# Load the game into the global game variable and parse the starting 
 	# location
-	game = load('games/ddu.yml')
+	game = load(argv[1])
 	location = parse_location(game['start'])
 
 	# Print the title of the game and the text of the starting location
