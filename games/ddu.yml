@@ -1,0 +1,294 @@
+name: "DDU Spil"
+start: texas/saloon
+locations:
+  texas:
+    rooms:
+      saloon:
+        message: >
+          You walk into the saloon with piano music blasting in the background. It looks like a traditionel saloon just like in the old western movies. You see a bartender serving drinks and a couple of sketchy guys sitting at a table to the side. 
+        objects:
+          sketchy_guys:
+            actions:
+              inspect:
+                message: >
+                  The two sketchy guys are sitting all by themselves in the back of the saloon. They are both wearing a cowboy hat and a giant ponco that is hiding whatever they got underneath. You should proceed with caution.
+          bartender:
+            alias:
+              - billy_bob
+            actions:
+              inspect:
+                message: "The bartender is a bald guy in his mid forties. He looks like a decent fellow"
+              go_to:
+                alias: 
+                  - talk_to
+                  - walk_tok
+                  - walk_over_to
+                else: 
+                  message: "You walk over to the bartender"
+                  trigger: bartender_talk_1
+                if:
+                  bartender_talk_1:
+                    message: >
+                      Well hello there traveller. Fancy seeing you here around these parts. (It looks like the bartender has more to say)
+                    trigger: bartender_talk_2
+                  bartender_talk_2:
+                    message: >
+                      You here to stay in town or are you looking to hit the road? (It looks like the bartender has more to say)
+                    trigger: bartender_talk_3
+                  bartender_talk_3:
+                    message: >
+                      If you want to hit the ground running, you are free to borrow my horse for a little while
+                    trigger:
+                      - horse_owner_talked
+        exits:
+          doors: texas/jail
+      jail:
+        message: >
+          You are in a jail with only a few cells, all empty. However you see that 
+          the janitor was well at work when he decided to leave, theres a mop and bucket still 
+          wet and full like it was used only minutes ago. Across the street you see a saloon, 
+          full of life, almost like ying and yang compared to the tumbleweed blowing in the jail.
+          Outside the jail you see a couple horses tied up. The cells are completely locked off with 
+          nothing inside except for one, where the matress is still on the bed.
+        objects:
+          mop:
+            actions:
+              take:
+                message: You take the wet mop, it might come in handy as a decent blunt weapon
+                trigger:
+                  - mop
+          matress:
+            alias:
+              - bed
+            actions:
+              inspect:
+                alias:
+                  - look_under
+                  - look_at
+                  - examine
+                message: >
+                  You look under the matress and find a shank, made from a piece of glass and 
+                  some duct tape
+                trigger: 
+                  - shank
+          horse:
+            alias:
+              - horses
+            actions:
+              steal: 
+                message: >
+                  You might get in trouble with the owner, but in the current state of the world 
+                  anything goes. You untie the horse and tries to hop on, much to your suprise the horse keeps calm and listens to your commands
+                trigger: 
+                  - stolen_horse
+              ride: 
+                if:
+                  horse_owner_talked: >
+                    After having gotten permission from the owner of the horse you feel a lot better
+                    "borrowing" the horse, at least thats what you promised him.
+                  "|| horse stolen_horse": >
+                    You have already ensured the horse is ready to ride to wherever you want to go. 
+                    Looking on your map, the highway looks to go directly to your next stop, Alabama.
+                else: >
+                  You should probably not just take the horse, another person might need it. 
+                  Maybe you can find the owner, and borrow the horse.
+        extis:
+          saloon: texas/saloon
+          highway:
+            alias: 
+              - freeway
+            if: 
+              horse: alabama/gun_store
+            else: >
+              You cant just walk to Alabama, you should probably get some form of transportation, 
+              like a horse
+  alabama:
+    rooms:
+      gun_store:
+        message: >
+          You arrive at Alabama. Alabama has a good ol' country feel to it, it smells like the countryside and a good hint of incest. 
+          The first place you see is a gun store, and unsuprisingly it also looks to be the only thing that is open. There is a what looks 
+          to be a classic american stereotype behind the counter, he is fat, has 3 visible guns on him, and is eating some form of fried food. 
+          There doesn't seem to be much of anything in here, except for way too many guns. Even though a lot of the spots on the wall are empty, 
+          there is still enough guns to arm the rest of the world with. In the corner there is a single restroom, that looks honestly too 
+          digusting to imagine. You have your horse parked just outside the double swing doors.
+        objects:
+          clerk:
+            alias:
+              - store_owner
+              - owner
+              - behind_counter
+              - sales_person
+              - guy
+            actions:
+              talk:
+                alias:
+                  - approach
+                  - interact
+                  - speak
+                message: >
+                  The guy seems quite uninterested in you, and only look up quickly to redirect his attention to the pornography magazine 
+                  and burger he is eating. You doubt he is gonna be of much help for anything.
+          restroom:
+            alias:
+              - bathroom
+              - wc
+              - toilet
+            actions:
+              go:
+                alias:
+                  - enter
+                  - inspect
+                  - look
+                  - see
+                message: >
+                  The bathroom reeks, and the walls looks to be splattered with shit. Going in is probably gonna make you puke, and you
+                  would like to avoid that.
+        extis:
+          door: washington/white_house
+  washington:
+    rooms:
+      white_house:
+        message: >
+          The white house is in shambles after the Trump supporters correctly assumed that the 
+          biden voters would riot, not agreeing with the outcome of the election. The fence that 
+          was supposed to guard the building has been torn open various places, from how it looks, 
+          either by driving cars into it or by ramming construction. However inside is a couple 
+          computers that are still intact, and a locked drawer in one of the desks.
+          Down the avenue is the Lincoln Memorial, where there seems to be quite a ruse.
+        objects:
+          drawer: 
+            actions:
+              open:
+                alias:
+                  - unlock
+                  - search
+                  - inspect
+                  - examine
+                  - search
+                if:
+                  desk_key: 
+                    trigger: car_key
+                    message: In the drawer there is a car key, specifically for a Ford, however it doesn't say which model.
+                  mop:
+                    trigger: !mop
+                    message: You try putting the handle of the mop in between the handle and the desk to use it as a lever, unfortunately it isnt sturdy enough and snaps in two.
+                else: Even trying to pull as hard as possible, the drawer doesn't seem to budge, even a smidge.
+          desk:
+            actions:
+              search:
+                alias:
+                  - look
+                  - examine
+                  - inspect
+                if:
+                  desk_key: Theres nothing but a bunch of uselses papers, they were probably important before everything.
+                else:
+                  trigger: desk_key
+                  message: You look around on the desk, and you find a key in a bunch of papers.
+          computer: 
+            alias: 
+              - pc
+              - pcs
+              - computers
+            actions:
+              lock:
+                message: >
+                  You lock the computer, however you don't know the password and there isn't 
+                  any sticky note with it on, it seems like you locked yourself out of the computer 
+                  and there isn't much more to do with it.
+                trigger: 
+                  - locked_pc
+              use:
+                alias:
+                  - inspect
+                  - browse
+                  - examine
+                if:
+                  locked_pc: The pc is locked and you can't find the password, there isnt anymore to do here
+                else: >
+                  You look on the computer there doesnt seem to be much of interest, that is until 
+                  you look in other places than the desktop, there is a file in the Documents folder 
+                  called 'covid_conspiracy.txt'. It reads: "I have been working as a secretary in the
+                  white house for 6 years now, trying to uncover some of the many mysteries 
+                  surrounding the presidency. However it seems that the entire covid-19 pandemic was a 
+                  made up thing by Donald Trump to win followers for the election. To be published..."
+        extis:
+          avenue: washington/lincoln_memorial
+      lincoln_memorial:
+        message: >
+          There is a huge almost war-like tension in the air, someone has decapitated the statue
+          of Abraham Lincoln, or at least thats what it used to represent, now however it has been 
+          replaced with the head of Donald Trump, this has lead to a huge amount of Trump supporters 
+          trying to defend the "new" statue from the huge amount of angry Joe Biden supporters.
+        objects:
+          trump_supporter: 
+            alias:
+              - republican
+              - donald_supporter
+              - donald_trump_supporter
+            actions:
+              talk:
+                alias:
+                  - speak
+                  - approach
+                  - interact
+                if:
+                  "&& !shank car_key": 
+                    message: <
+                      You approach the Trump supporters to ask about what is going on, and who own the car key
+                      you found earlier. Sadly they don't seem to keen on being helpful, and they start a huge 
+                      fight, sadly you have nothing to defend yourself with, and since there is no free healthcare
+                      in the US, you end up dying from the injuries.
+                    trigger: end
+                  "&& shank car_key":
+                    message: >
+                      You try asking the Trump supporters what is happening, and if they know anything
+                      about the car key you have found. They don't seem to be very helpful, at least 
+                      until you pull out the shank you have brought with you. They say that the key belongs
+                      to a Ford F150 right out by the street.
+                    trigger: car
+                  else:
+                    message: >
+                      You approach the Trump supporters to ask about what is going on. Sadly they don't seem 
+                      too keen on being helpful, and they start a huge fight, sadly you have nothing to defend 
+                      yourself with, and since there is no free healthcare in the US, you end up dying from the 
+                      injuries.
+                    trigger: end
+          biden_supporter: 
+            alias:
+              - democrat
+              - joe_supporter
+            actions:
+              talk:
+                alias:
+                  - speak
+                  - approach
+                  - interact
+                if:
+                  "car_key":
+                    message: >
+                      You try asking the Biden supporters what is happening, and if they know anything
+                      about the car key you have found. They seem quite very friendly, they say that the key belongs
+                      to a Ford F150 right out by the street.
+                    trigger: car
+                  else:
+                    message: >
+                      You approach the Biden supporters to ask about what is going on. Sadly they don't seem 
+                      to be of any help, as they just start spewing random anti-trump propaganda.
+                    trigger: end
+        extis:
+          avenue: washington/white_house
+          border:
+            alias: 
+              - freeway
+              - highway
+            if: 
+              car: canada/victory
+            else: The border is much like a McDrive, they don't tolerate jokes about going through on foot.
+  canada:
+    rooms:
+      victory:
+        message: >
+          You have crossed the border to Canada where people are happy and the president isn't a 
+          psychotic and unstable racist.
