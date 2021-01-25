@@ -6,13 +6,13 @@ locations:
     rooms:
       saloon:
         message: >
-          You walk into the saloon with piano music blasting in the background. It looks like a traditionel saloon just like in the old western movies. You see a bartender serving drinks and a couple of sketchy guys sitting at a table to the side. 
+          You walk into the saloon with piano music blasting in the background. It looks like a traditional saloon just like in the old western movies. You see a bartender serving drinks and a couple of sketchy guys sitting at a table to the side. 
         objects:
           sketchy_guys:
             actions:
               inspect:
                 message: >
-                  The two sketchy guys are sitting all by themselves in the back of the saloon. They are both wearing a cowboy hat and a giant ponco that is hiding whatever they got underneath. You should proceed with caution.
+                  The two sketchy guys are sitting all by themselves in the back of the saloon. They are both wearing a cowboy hat and a giant poncho that is hiding whatever they got underneath. You should proceed with caution.
           bartender:
             alias:
               - billy_bob
@@ -54,7 +54,7 @@ locations:
           wet and full like it was used only minutes ago. Across the street you see a saloon, 
           full of life, almost like ying and yang compared to the tumbleweed blowing in the jail.
           Outside the jail you see a couple horses tied up. The cells are completely locked off with 
-          nothing inside except for one, where the matress is still on the bed.
+          nothing inside except for one, where the mattress is still on the bed.
         objects:
           mop:
             actions:
@@ -62,7 +62,7 @@ locations:
                 message: You take the wet mop, it might come in handy as a decent blunt weapon
                 trigger:
                   - mop
-          matress:
+          mattress:
             alias:
               - bed
             actions:
@@ -72,7 +72,7 @@ locations:
                   - look_at
                   - examine
                 message: >
-                  You look under the matress and find a shank, made from a piece of glass and 
+                  You look under the mattress and find a shank, made from a piece of glass and 
                   some duct tape
                 trigger: 
                   - shank
@@ -83,7 +83,7 @@ locations:
               steal: 
                 message: >
                   You might get in trouble with the owner, but in the current state of the world 
-                  anything goes. You untie the horse and tries to hop on, much to your suprise the horse keeps calm and listens to your commands
+                  anything goes. You untie the horse and tries to hop on, much to your surprise the horse keeps calm and listens to your commands
                 trigger: 
                   - stolen_horse
               ride: 
@@ -113,11 +113,11 @@ locations:
       gun_store:
         message: >
           You arrive at Alabama. Alabama has a good ol' country feel to it, it smells like the countryside and a good hint of incest. 
-          The first place you see is a gun store, and unsuprisingly it also looks to be the only thing that is open. There is a what looks 
+          The first place you see is a gun store, and unsurprisingly it also looks to be the only thing that is open. There is a what looks 
           to be a classic american stereotype behind the counter, he is fat, has 3 visible guns on him, and is eating some form of fried food. 
           There doesn't seem to be much of anything in here, except for way too many guns. Even though a lot of the spots on the wall are empty, 
           there is still enough guns to arm the rest of the world with. In the corner there is a single restroom, that looks honestly too 
-          digusting to imagine. You have your horse parked just outside the double swing doors.
+          disgusting to imagine. You have your horse parked just outside the double swing doors.
         objects:
           clerk:
             alias:
@@ -179,7 +179,7 @@ locations:
                   mop:
                     trigger: "!mop"
                     message: You try putting the handle of the mop in between the handle and the desk to use it as a lever, unfortunately it isnt sturdy enough and snaps in two.
-                else: Even trying to pull as hard as possible, the drawer doesn't seem to budge, even a smidge.
+                else: Even trying to pull as hard as possible, the drawer doesn't seem to budge, even a smidgen.
           desk:
             actions:
               search:
@@ -188,7 +188,7 @@ locations:
                   - examine
                   - inspect
                 if:
-                  desk_key: Theres nothing but a bunch of uselses papers, they were probably important before everything.
+                  desk_key: Theres nothing but a bunch of useless papers, they were probably important before everything.
                 else:
                   trigger: desk_key
                   message: You look around on the desk, and you find a key in a bunch of papers.
@@ -211,9 +211,9 @@ locations:
                   - browse
                   - examine
                 if:
-                  locked_pc: The pc is locked and you can't find the password, there isnt anymore to do here
+                  locked_pc: The pc is locked and you can't find the password, there isn't anymore to do here
                 else: >
-                  You look on the computer there doesnt seem to be much of interest, that is until 
+                  You look on the computer there doesn't seem to be much of interest, that is until 
                   you look in other places than the desktop, there is a file in the Documents folder 
                   called 'covid_conspiracy.txt'. It reads: "I have been working as a secretary in the
                   white house for 6 years now, trying to uncover some of the many mysteries 

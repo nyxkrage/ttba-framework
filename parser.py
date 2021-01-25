@@ -170,9 +170,9 @@ def main():
 							print('ERROR WRONGLY FORMATTED GAME FILE')
 							return
 				else:
-					print('\u001b[31mSorry you cant do that')
+					print('\u001b[31mSorry you can\'t do that')
 			else:
-				print('\u001b[31mI dont know what you are referring to')
+				print('\u001b[31mI don\'t know what you are referring to')
 
 
 def set_triggers(values):
