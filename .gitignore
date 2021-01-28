@@ -37,6 +37,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+*.exe
 
 # Installer logs
 pip-log.txt
@@ -171,3 +172,5 @@ tags
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/python,vscode,vim
+
+ddu/
