@@ -93,7 +93,7 @@ locations:
                       After having gotten permission from the owner of the horse you feel a lot better
                       "borrowing" the horse, at least thats what you promised him.
                     trigger:
-                      - !horse_owner_talked
+                      - "!horse_owner_talked"
                       - horse
                   "|| horse stolen_horse": >
                     You have already ensured the horse is ready to ride to wherever you want to go. 
